@@ -36,5 +36,13 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
+        {
+            "name": "Python: Chapter8.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Chapter8.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
     ]
 }

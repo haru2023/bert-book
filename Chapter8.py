@@ -1,3 +1,11 @@
+# 8.GPT2(文章生成)
+
+# カレントディレクトリを "./chap8/" にする
+import os
+file_directory = os.path.dirname(os.path.abspath(__file__)) # fileのあるディレクトリのパスを取得
+target_directory = os.path.join(file_directory, 'chap8') # './chap8/'へのパスを構築
+os.chdir(target_directory) # カレントディレクトリを変更
+
 # 8-1
 #// !mkdir chap8
 #// %cd ./chap8
@@ -260,11 +268,13 @@ for batch in dataloader:
     loss = output.loss # 損失
 
 # 8-13
-!git clone --branch v2.0 https://github.com/stockmarkteam/ner-wikipedia-dataset 
+#// !git clone --branch v2.0 https://github.com/stockmarkteam/ner-wikipedia-dataset 
 
 # 8-14
 # データのロード
-dataset = json.load(open('ner-wikipedia-dataset/ner.json','r'))
+with open('ner-wikipedia-dataset/ner.json', encoding='utf-8') as f:
+    dataset = json.load(f)
+#// dataset = json.load(open('ner-wikipedia-dataset/ner.json','r'))
 
 # 固有表現のタイプとIDを対応付る辞書 
 type_id_dict = {
@@ -743,7 +753,3 @@ for sample in tqdm(dataset_test):
     entities_predicted_list.append( entities_predicted )
 
 print(evaluate_model(entities_list, entities_predicted_list))
-
-
-
-
