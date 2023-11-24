@@ -1,3 +1,11 @@
+# 7.文章の抽出
+
+# カレントディレクトリを "./chap7/" にする
+import os
+file_directory = os.path.dirname(os.path.abspath(__file__)) # fileのあるディレクトリのパスを取得
+target_directory = os.path.join(file_directory, 'chap7') # './chap7/'へのパスを構築
+os.chdir(target_directory) # カレントディレクトリを変更
+
 # 7-1
 #// !mkdir chap7
 #// %cd ./chap7
@@ -120,12 +128,14 @@ loss = output.loss # 損失
 
 # 7-8
 # データのダウンロード
-!wget https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/chABSA-dataset.zip
+#// !wget https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/chABSA-dataset.zip
 # データの解凍
-!unzip chABSA-dataset.zip 
+#// !unzip chABSA-dataset.zip 
 
 # 7-9
-data = json.load(open('chABSA-dataset/e00030_ann.json'))
+with open('chABSA-dataset/e00030_ann.json', encoding='utf-8') as f:
+    data = json.load(f)
+#// data = json.load(open('chABSA-dataset/e00030_ann.json'))
 print( data['sentences'][0] )
 
 # 7-10
@@ -133,7 +143,9 @@ category_id = {'negative':0, 'neutral':1 , 'positive':2}
 
 dataset = []
 for file in glob.glob('chABSA-dataset/*.json'):
-    data = json.load(open(file))
+    with open(file, encoding='utf-8') as f:
+        data = json.load(f)
+#//     data = json.load(open(file))
     # 各データから文章（text）を抜き出し、ラベル（'labels'）を作成
     for sentence in data['sentences']:
         text = sentence['sentence'] 
@@ -270,8 +282,3 @@ for text, label in zip(text_list, labels_predicted):
     print('--')
     print(f'入力：{text}')
     print(f'出力：{label}')
-
-
-
-
-
