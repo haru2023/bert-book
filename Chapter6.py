@@ -1,3 +1,11 @@
+# 6.BERTによるテキスト分類
+
+# カレントディレクトリを "./chap6/" にする
+import os
+file_directory = os.path.dirname(os.path.abspath(__file__)) # fileのあるディレクトリのパスを取得
+target_directory = os.path.join(file_directory, 'chap6') # './chap6/'へのパスを構築
+os.chdir(target_directory) # カレントディレクトリを変更
+
 # 6-1
 #// !mkdir chap6
 #// %cd ./chap6
@@ -73,13 +81,13 @@ loss = output.loss # 損失の取得
 print(loss)
 
 # 6-7
-#データのダウンロード
-!wget https://www.rondhuit.com/download/ldcc-20140209.tar.gz 
-#ファイルの解凍
-!tar -zxf ldcc-20140209.tar.gz 
-
+#// #データのダウンロード
+#// !wget https://www.rondhuit.com/download/ldcc-20140209.tar.gz 
+#// #ファイルの解凍
+#// !tar -zxf ldcc-20140209.tar.gz 
+#// 
 # 6-8
-!cat ./text/it-life-hack/it-life-hack-6342280.txt # ファイルを表示
+#// !cat ./text/it-life-hack/it-life-hack-6342280.txt # ファイルを表示
 
 # 6-9
 # データローダーの作成
@@ -126,7 +134,9 @@ max_length = 128
 dataset_for_loader = []
 for label, category in enumerate(tqdm(category_list)):
     for file in glob.glob(f'./text/{category}/{category}*'):
-        lines = open(file).read().splitlines()
+        with open(file, encoding='utf-8') as f:
+            lines = f.read().splitlines()
+#//         lines = open(file).read().splitlines()
         text = '\n'.join(lines[3:]) # ファイルの4行目からを抜き出す。
         encoding = tokenizer(
             text,
@@ -240,8 +250,10 @@ print('ベストモデルのファイル: ', checkpoint.best_model_path)
 print('ベストモデルの検証データに対する損失: ', checkpoint.best_model_score)
 
 # 6-18
-%load_ext tensorboard
-%tensorboard --logdir ./
+# TensorBoard という視覚化ツールの Jupyter Notebook 拡張を読み込む
+#// %load_ext tensorboard
+# TensorBoard を起動して、特定のディレクトリに保存されたログファイルを表示する
+#// %tensorboard --logdir ./
 
 # 6-19
 test = trainer.test(dataloaders=dataloader_test)
@@ -260,5 +272,3 @@ model.bert_sc.save_pretrained('./model_transformers')
 bert_sc = BertForSequenceClassification.from_pretrained(
     './model_transformers'
 )
-
-
