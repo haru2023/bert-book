@@ -44,5 +44,13 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
+        {
+            "name": "Python: Chapter9.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Chapter9.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
     ]
 }

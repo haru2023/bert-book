@@ -1,3 +1,11 @@
+# 9.抽象型文章要約
+
+# カレントディレクトリを "./chap9/" にする
+import os
+file_directory = os.path.dirname(os.path.abspath(__file__)) # fileのあるディレクトリのパスを取得
+target_directory = os.path.join(file_directory, 'chap9') # './chap9/'へのパスを構築
+os.chdir(target_directory) # カレントディレクトリを変更
+
 # 9-1
 #// !mkdir chap9
 #// %cd ./chap9
@@ -219,8 +227,8 @@ for batch in dataloader:
     loss = output.loss # 損失
 
 # 9-12
-!curl -L "https://nlp.ist.i.kyoto-u.ac.jp/DLcounter/lime.cgi?down=https://nlp.ist.i.kyoto-u.ac.jp/nl-resource/JWTD/jwtd.tar.gz&name=JWTD.tar.gz" -o JWTD.tar.gz
-!tar zxvf JWTD.tar.gz
+#// !curl -L "https://nlp.ist.i.kyoto-u.ac.jp/DLcounter/lime.cgi?down=https://nlp.ist.i.kyoto-u.ac.jp/nl-resource/JWTD/jwtd.tar.gz&name=JWTD.tar.gz" -o JWTD.tar.gz
+#// !tar zxvf JWTD.tar.gz
 
 # 9-13
 def create_dataset(data_df):
@@ -476,7 +484,3 @@ for sample in tqdm(dataset_test):
         correct_position_num += 1
         
 print(f'Accuracy: {correct_position_num/len(dataset_test):.2f}')
-
-
-
-
