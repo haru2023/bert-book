@@ -1,4 +1,5 @@
 # 9.抽象型文章要約
+# 実行方法："chap9"フォルダを作成し、"https://nlp.ist.i.kyoto-u.ac.jp/DLcounter/lime.cgi?down=https://nlp.ist.i.kyoto-u.ac.jp/nl-resource/JWTD/jwtd.tar.gz&name=JWTD.tar.gz"を解凍して、VSCodeでChapter9.pyを実行
 
 # カレントディレクトリを "./chap9/" にする
 import os

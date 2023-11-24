@@ -1,4 +1,5 @@
 # 7.文章の抽出
+# 実行方法："chap7"フォルダを作成し、"https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/chABSA-dataset.zip"を解凍して、VSCodeでChapter7.pyを実行
 
 # カレントディレクトリを "./chap7/" にする
 import os

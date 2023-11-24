@@ -1,4 +1,5 @@
 # 8.GPT2(文章生成)
+# 実行方法："chap8"フォルダを作成し、"git clone --branch v2.0 https://github.com/stockmarkteam/ner-wikipedia-dataset"して、VSCodeでChapter8.pyを実行
 
 # カレントディレクトリを "./chap8/" にする
 import os

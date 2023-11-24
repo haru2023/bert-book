@@ -1,4 +1,5 @@
 # 6.BERTによるテキスト分類
+# 実行方法："chap6"フォルダを作成し、"https://www.rondhuit.com/download/ldcc-20140209.tar.gz"を解凍して、VSCodeでChapter6.pyを実行
 
 # カレントディレクトリを "./chap6/" にする
 import os

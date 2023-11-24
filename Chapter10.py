@@ -1,4 +1,5 @@
 # 10.文章ベクトルを用いたデータの可視化と類似文章検索
+# 実行方法："chap10"フォルダを作成し、"https://www.rondhuit.com/download/ldcc-20140209.tar.gz"を解凍して、VSCodeでChapter10.pyを実行
 
 # カレントディレクトリを "./chap10/" にする
 import os

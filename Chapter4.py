@@ -1,4 +1,5 @@
 # 4.Transformer
+# 実行方法：VSCodeでChapter4.pyを実行
 
 # 4-1
 #// !pip install transformers==4.18.0 fugashi==1.1.0 ipadic==1.0.0
