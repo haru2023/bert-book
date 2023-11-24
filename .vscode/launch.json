@@ -52,5 +52,13 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
+        {
+            "name": "Python: Chapter10.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Chapter10.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
     ]
 }

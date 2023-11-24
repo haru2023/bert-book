@@ -1,3 +1,11 @@
+# 10.文章ベクトルを用いたデータの可視化と類似文章検索
+
+# カレントディレクトリを "./chap10/" にする
+import os
+file_directory = os.path.dirname(os.path.abspath(__file__)) # fileのあるディレクトリのパスを取得
+target_directory = os.path.join(file_directory, 'chap10') # './chap10/'へのパスを構築
+os.chdir(target_directory) # カレントディレクトリを変更
+
 # 10-1
 #// !mkdir chap10
 #// %cd ./chap10
@@ -23,9 +31,9 @@ MODEL_NAME = 'cl-tohoku/bert-base-japanese-whole-word-masking'
 
 # 10-4
 #データのダウンロード
-!wget https://www.rondhuit.com/download/ldcc-20140209.tar.gz 
+#// !wget https://www.rondhuit.com/download/ldcc-20140209.tar.gz 
 #ファイルの解凍
-!tar -zxf ldcc-20140209.tar.gz 
+#// !tar -zxf ldcc-20140209.tar.gz 
 
 # 10-5
 # カテゴリーのリスト
@@ -53,7 +61,9 @@ labels = [] # ラベルを追加していく。
 for label, category in enumerate(tqdm(category_list)):
     for file in glob.glob(f'./text/{category}/{category}*'):
         # 記事から文章を抜き出し、符号化を行う。
-        lines = open(file).read().splitlines()
+        with open(file, encoding='utf-8') as f:
+            lines = f.read().splitlines()
+#//         lines = open(file).read().splitlines()
         text = '\n'.join(lines[3:])
         encoding = tokenizer(
             text, 
@@ -154,7 +164,3 @@ num_correct = ( input_news_categories == output_news_categories ).sum()
 accuracy = num_correct / labels.shape[0]
 
 print(f"Accuracy: {accuracy:.2f}")
-
-
-
-
