@@ -75,7 +75,7 @@ bert = bert.cuda()
 # 4-15
 print(bert.config)
 
-# 4-16
+# 4-16:text→token→embeddings→hidden state(文脈情報に応じたtensor。以下の例だと２つ)を生成
 text_list = [
     '明日は自然言語処理の勉強をしよう。',
     '明日はマシーンラーニングの勉強をしよう。'
@@ -97,22 +97,22 @@ encoding = { k: v.cuda() for k, v in encoding.items() }
 output = bert(**encoding) # それぞれの入力は2次元のtorch.Tensor
 last_hidden_state = output.last_hidden_state # 最終層の出力
 
-# 4-17
+# 4-17:4-16で行った「output = bert(**encoding)」を、次のようにも書ける
 output = bert(
     input_ids=encoding['input_ids'], 
     attention_mask=encoding['attention_mask'],
     token_type_ids=encoding['token_type_ids']
 )
 
-# 4-18
-print(last_hidden_state.size()) #テンソルのサイズ
+# 4-18:tensor.size()が[len(text_list), max_length, hidden_size]になることを確認
+print(last_hidden_state.size()) #テンソルのサイズ([2, 32, 768])
 
-# 4-19
+# 4-19:4-16で行った「output = bert(**encoding)」を、勾配計算なしで行う
 with torch.no_grad():
     output = bert(**encoding)
     last_hidden_state = output.last_hidden_state
 
-# 4-20
+# 4-20:GPU(PyTorchTensor)→CPU(配列)にして応用可能にする
 last_hidden_state = last_hidden_state.cpu() # CPUにうつす。
 last_hidden_state = last_hidden_state.numpy() # numpy.ndarrayに変換
 last_hidden_state = last_hidden_state.tolist() # リストに変換
