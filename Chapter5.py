@@ -25,25 +25,26 @@ input_ids = tokenizer.encode(text, return_tensors='pt')  # テキストを符号
 input_ids = input_ids.cuda()  # 符号化されたテキストをGPUに転送
 
 # BERTに入力し、分類スコアを得る。
-# 系列長を揃える必要がないので、単にiput_idsのみを入力します。
+# text が１つで batch 処理しないため、系列長を揃える必要がないので、単にiput_idsのみを入力します。
 with torch.no_grad():  # 勾配計算を無効にして推論モード
     output = bert_mlm(input_ids=input_ids)  # BERTモデルに入力
     scores = output.logits  # 出力からスコアを取得
 
 # 5-6: [MASK]を最も可能性の高いトークンで置き換える
 # ID列で'[MASK]'(IDは4)の位置を調べる
-mask_position = input_ids[0].tolist().index(4)  # [MASK]トークンの位置を特定
+mask_position_list = input_ids[0].tolist() # [2, 3246, 9, 4, 118, 3488, 8, 3]
+mask_position = mask_position_list.index(4)  # mask_position = 3 // [MASK]トークンの位置を特定
 
 # スコアが最も良いトークンのIDを取り出し、トークンに変換する。
 id_best = scores[0, mask_position].argmax(-1).item()  # 最もスコアが高いトークンのIDを取得
-token_best = tokenizer.convert_ids_to_tokens(id_best)  # トークンIDをトークンに変換
+token_best = tokenizer.convert_ids_to_tokens(id_best)  # token_best == "東京" // トークンIDをトークンに変換
 token_best = token_best.replace('##', '')  # 不要な文字を削除
 
 # [MASK]を上で求めたトークンで置き換える。
 text = text.replace('[MASK]', token_best)  # [MASK]を置き換えたテキストを作成
 print(text)  # 置き換えたテキストを表示
 
-# 5-7: スコアの上位トークンで[MASK]を置き換える関数
+# 5-7: 5-6 で行ったことを行う関数（スコアの上位トークンで[MASK]を置き換える）
 def predict_mask_topk(text, tokenizer, bert_mlm, num_topk):
     """
     文章中の最初の[MASK]をスコアの上位のトークンに置き換える。
@@ -82,15 +83,17 @@ def greedy_prediction(text, tokenizer, bert_mlm):
     """
     # 前から順に[MASK]を一つづつ、スコアの最も高いトークンに置き換える。
     for _ in range(text.count('[MASK]')):
-        text = predict_mask_topk(text, tokenizer, bert_mlm, 1)[0][0]  # スコアが最も高いトークンで[MASK]を置き換え
+        text = predict_mask_topk(text, tokenizer, bert_mlm, 1)[0][0]  # スコアが最も高いトークンで[MASK]を置き換え text 更新し次のループへ
     return text
 
 text = '今日は[MASK][MASK]へ行く。'
-print(greedy_prediction(text, tokenizer, bert_mlm))  # 穴埋めしたテキストを表示
+text = greedy_prediction(text, tokenizer, bert_mlm)
+print(text)  # 穴埋めしたテキストを表示
 
 # 5-9: 複数の[MASK]を含むテキストの穴埋め
 text = '今日は[MASK][MASK][MASK][MASK][MASK]'
-print(greedy_prediction(text, tokenizer, bert_mlm))  # 穴埋めしたテキストを表示
+text = greedy_prediction(text, tokenizer, bert_mlm)
+print(text)  # 穴埋めしたテキストを表示
 
 # 5-10: ビームサーチによる穴埋め
 def beam_search(text, tokenizer, bert_mlm, num_topk):
